@@ -15,7 +15,7 @@ import unicodedata
 from flask import Flask, render_template, request, send_file, flash, redirect, url_for
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='media')
 app.secret_key = "jyserai-tcr-secret"  # utilisé seulement pour les flash messages
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -170,4 +170,4 @@ def generate():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=8000)
+    app.run(debug=False, host="0.0.0.0", port=8000)
