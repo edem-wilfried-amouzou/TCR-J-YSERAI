@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J'y serai - Togo Code Run #TCR</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          tcr: {
+            orange: '#FF5C01',
+            black: '#0A0A0A',
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+        }
+      }
+    }
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .bg-pattern {
+    background-image: radial-gradient(#00000015 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+</style>
+</head>
+<body class="bg-pattern bg-orange-50/30 min-h-screen flex items-center justify-center p-6">
+
+  <div class="w-full max-w-md">
+
+    <!-- Header façon affiche TCR -->
+    <div class="flex items-center justify-between mb-6 px-1">
+      <span class="font-extrabold text-2xl tracking-tight text-tcr-black">yTech<span class="text-tcr-orange">.</span></span>
+      <div class="flex items-center gap-2 text-right">
+        <div>
+          <p class="text-xs font-bold leading-tight text-tcr-black">TOGO CODE<br>RUN <span class="text-tcr-orange">#TCR</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-xl shadow-orange-900/5 border border-orange-100 overflow-hidden">
+
+      <!-- Bandeau titre -->
+      <div class="px-6 pt-8 pb-6 text-center border-b border-orange-50">
+        <h1 class="text-4xl font-extrabold tracking-tight">
+          <span class="text-tcr-black">J'Y</span> <span class="text-tcr-orange">SERAI</span>
+        </h1>
+        <p class="text-sm font-semibold text-gray-500 mt-1">Votre affiche "J'y serai" en quelques clics : personnalisez et partagez !</p>
+        <div class="flex items-center justify-center gap-6 mt-4 text-xs font-bold text-tcr-black">
+          <span class="flex items-center gap-1">
+          21–23 Août 2026
+          </span> -
+          <span class="flex items-center gap-1">
+          Kpalimé, Togo
+          </span>
+        </div>
+      </div>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="mx-6 mt-5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm font-medium px-4 py-3">
+            {% for m in messages %}
+              <p>{{ m }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <!-- Formulaire -->
+      <form action="{{ url_for('generate') }}" method="POST" enctype="multipart/form-data" class="px-6 py-6 space-y-5">
+
+        <!-- Upload photo avec aperçu circulaire -->
+        <div>
+          <label class="block text-sm font-bold text-tcr-black mb-2">Ta photo</label>
+          <label for="photo" class="group cursor-pointer flex flex-col items-center justify-center gap-3 mx-auto w-40 h-40 rounded-full border-2 border-dashed border-tcr-orange/50 hover:border-tcr-orange bg-orange-50/50 transition overflow-hidden relative">
+            <img id="preview" class="hidden absolute inset-0 w-full h-full object-cover" alt="Aperçu">
+            <span id="placeholder" class="text-xs font-semibold text-tcr-orange text-center px-4">
+              📷<br>Choisir une photo
+            </span>
+          </label>
+          <input id="photo" name="photo" type="file" accept="image/png, image/jpeg, image/webp" required class="hidden"
+                 onchange="previewPhoto(event)">
+        </div>
+
+        <!-- Nom -->
+        <div>
+          <label for="nom" class="block text-sm font-bold text-tcr-black mb-1">Nom & Prénom</label>
+          <input type="text" id="nom" name="nom" maxlength="30" required placeholder="Ex : Eja Komla"
+                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium
+                        focus:outline-none focus:ring-2 focus:ring-tcr-orange focus:border-transparent">
+        </div>
+
+        <!-- Titre -->
+        <div>
+          <label for="titre" class="block text-sm font-bold text-tcr-black mb-1">Ton titre</label>
+          <input type="text" id="titre" name="titre" maxlength="15" required placeholder="Ex : Étudiant Développeur Web"
+                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium
+                        focus:outline-none focus:ring-2 focus:ring-tcr-orange focus:border-transparent">
+        </div>
+
+        <button type="submit"
+                class="w-full bg-tcr-orange hover:bg-orange-600 active:scale-[0.98] transition
+                       text-white font-bold text-sm rounded-xl py-3.5 shadow-lg shadow-orange-500/25">
+          Générer mon affiche « J'y serai »
+        </button>
+      </form>
+    </div>
+
+    <p class="text-center text-xs text-gray-400 mt-5">togocoderun.com · togocoderun@gmail.com</p>
+  </div>
+
+  <script>
+    function previewPhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const img = document.getElementById('preview');
+      const placeholder = document.getElementById('placeholder');
+      img.src = URL.createObjectURL(file);
+      img.classList.remove('hidden');
+      placeholder.classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>
